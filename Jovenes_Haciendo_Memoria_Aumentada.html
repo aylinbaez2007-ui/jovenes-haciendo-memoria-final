@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jóvenes haciendo memoria | Aumentada</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+<style>
+:root {
+  --amarillo:#dfff00;
+  --rosa:#ff0000;
+  --celeste:#ff0000;
+  --verde:#8bd17c;
+  --fondo:#0b0b0b;
+  --tarjeta:#eeeeee;
+  --texto:#ffffff;
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  text-shadow:none !important;
+}
+
+html {
+  scroll-behavior:smooth;
+  background:#0b0b0b;
+}
+
+body {
+  background-color:transparent !important;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.20),rgba(0,0,0,0.20)),
+    url("../Imagenes/Fondo/fondo-memoria.png") !important;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  color:var(--texto);
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:18px;
+  line-height:1.75;
+}
+
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
+button {
+  font-family:inherit;
+}
+
+.acento-rosa { color:var(--rosa); }
+.acento-celeste { color:var(--celeste); }
+.acento-amarillo { color:var(--amarillo); }
+.acento-verde { color:var(--verde); }
+
+h1,h2,h3 {
+  text-shadow:none !important;
+}
+
+/* ENCABEZADO */
+
+header {
+  width:100%;
+  min-height:75px;
+  padding:18px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  background:rgba(16,16,16,0.72);
+  border-bottom:1px solid #292929;
+  position:relative;
+  z-index:10;
+  color:#ffffff;
+}
+
+.logo {
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffffff;
+}
+
+.logo span { color:var(--rosa); }
+
+nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+}
+
+nav a {
+  color:#ffffff;
+  font-size:17px;
+  font-weight:bold;
+  transition:.3s;
+}
+
+nav a:hover { color:var(--amarillo); }
+
+/* PORTADA */
+
+.principal {
+  min-height:85vh;
+  padding:100px 8%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:rgba(8,8,8,0.30);
+  color:#ffffff;
+}
+
+.etiqueta {
+  color:var(--rosa);
+  font-size:17px;
+  letter-spacing:4px;
+  margin-bottom:25px;
+  font-weight:bold;
+}
+
+.principal h1 {
+  font-size:clamp(42px,8vw,90px);
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffffff;
+}
+
+.principal h1 span { color:var(--amarillo); }
+
+.subtitulo {
+  max-width:650px;
+  color:#ffffff;
+  margin:25px auto 30px;
+  font-size:19px;
+}
+
+.boton {
+  display:inline-block;
+  padding:14px 25px;
+  background:var(--rosa);
+  color:#ffffff;
+  border:0;
+  border-radius:4px;
+  font-size:17px;
+  font-weight:bold;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.boton:hover {
+  background:var(--amarillo);
+  color:#000000;
+  transform:translateY(-3px);
+}
+
+.boton:disabled {
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* SECCIONES */
+
+.seccion {
+  padding:85px 9%;
+  scroll-margin-top:25px;
+  color:#ffffff;
+}
+
+.seccion h2,
+.menu-interactivo h2,
+#realidad-aumentada h2,
+.logos h2 {
+  font-size:clamp(27px,4vw,42px);
+  font-weight:900;
+  margin-bottom:25px;
+  line-height:1.2;
+  color:#ffffff;
+}
+
+.introduccion {
+  max-width:900px;
+  color:#ffffff;
+  font-size:19px;
+  line-height:1.8;
+}
+
+#memoria-amplificada {
+  background:rgba(17,17,17,0.35);
+  border-top:1px solid #222;
+  border-bottom:1px solid #222;
+}
+
+/* MENÚ INTERACTIVO */
+
+.menu-interactivo {
+  padding:80px 9%;
+  text-align:center;
+  background:rgba(21,21,21,0.40);
+  color:#ffffff;
+}
+
+.menu-interactivo .introduccion {
+  margin:0 auto 30px;
+}
+
+.botones-secciones {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-top:30px;
+}
+
+.boton-seccion {
+  padding:15px 22px;
+  color:#000000;
+  background:#eeeeee;
+  border:1px solid #555;
+  border-radius:4px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:17px;
+  transition:.3s;
+}
+
+.boton-seccion:hover,
+.boton-seccion.activo {
+  background:var(--celeste);
+  color:#ffffff;
+  border-color:var(--celeste);
+}
+
+.contenido-interactivo {
+  display:none;
+  scroll-margin-top:30px;
+  color:#ffffff;
+}
+
+.contenido-interactivo.visible {
+  display:block;
+  animation:aparecer .5s ease;
+}
+
+@keyframes aparecer {
+  from { opacity:0; transform:translateY(15px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* TARJETAS */
+
+.tarjetas {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-top:35px;
+}
+
+.tarjeta {
+  background:rgba(238,238,238,0.88);
+  padding:25px;
+  border:1px solid #303030;
+  border-radius:7px;
+  transition:.3s;
+  color:#000000;
+}
+
+.tarjeta:hover {
+  transform:translateY(-5px);
+  border-color:var(--rosa);
+}
+
+.tarjeta h3 {
+  color:#000000;
+  margin-bottom:12px;
+  font-size:20px;
+}
+
+.tarjeta p {
+  color:#000000;
+  font-size:18px;
+  line-height:1.7;
+}
+
+.tarjeta .autores {
+  margin-top:15px;
+  font-size:17px;
+}
+
+.autores strong { color:var(--rosa); }
+
+/* CÁTEDRA */
+
+.equipo {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin:25px 0 40px;
+}
+
+.docente {
+  background:rgba(238,238,238,0.88);
+  border:1px solid #333;
+  padding:20px;
+  border-radius:5px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  color:#000000;
+}
+
+.docente strong,
+.docente span { color:#000000; }
+
+.docente span { font-size:17px; }
+
+.ejes {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:12px;
+  margin-top:25px;
+}
+
+.eje {
+  background:rgba(238,238,238,0.88);
+  padding:17px;
+  border-left:3px solid var(--celeste);
+  color:#000000;
+  font-size:18px;
+}
+
+.eje strong { color:var(--celeste); }
+
+/* REALIDAD AUMENTADA */
+
+#realidad-aumentada {
+  padding:85px 7%;
+  text-align:center;
+  background:rgba(17,17,17,0.45);
+  border-top:1px solid #292929;
+  border-bottom:1px solid #292929;
+  scroll-margin-top:20px;
+  color:#ffffff;
+}
+
+#realidad-aumentada > p {
+  color:#ffffff;
+  font-size:18px;
+  margin:10px auto 20px;
+}
+
+#selectorMarcadores {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:25px auto;
+}
+
+.selector-marcador { max-width:100%; }
+
+#visorRA {
+  display:none;
+  position:relative;
+  width:100%;
+  max-width:850px;
+  height:min(70vh,550px);
+  min-height:320px;
+  margin:30px auto 15px;
+  overflow:hidden;
+  background:#050505;
+  border:1px solid #444;
+  border-radius:8px;
+}
+
+#escenaContenedor {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+#escenaContenedor a-scene {
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background:transparent !important;
+}
+
+#escenaContenedor canvas {
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background:transparent !important;
+  z-index:1;
+}
+
+#escenaContenedor video {
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  z-index:0 !important;
+}
+
+#videoGrupo01 {
+  display:none;
+  position:absolute;
+  z-index:5;
+  width:75%;
+  height:auto;
+  max-height:75%;
+  object-fit:contain;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  background:#000000;
+}
+
+#estadoRA {
+  color:var(--amarillo);
+  font-size:18px;
+  margin:18px auto;
+  min-height:25px;
+}
+
+.selector-marcador:disabled {
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* INSTITUCIONES */
+
+.logos {
+  padding:75px 8%;
+  text-align:center;
+  background:rgba(16,16,16,0.45);
+  color:#ffffff;
+}
+
+.logos h2 span { color:var(--amarillo); }
+
+.logos > p {
+  color:#ffffff;
+  font-size:18px;
+  margin-bottom:30px;
+}
+
+.imagen-instituciones {
+  display:block;
+  width:100%;
+  max-width:1150px;
+  height:auto;
+  margin:30px auto;
+  object-fit:contain;
+}
+
+.mensaje-logos {
+  color:var(--rosa);
+  font-size:17px;
+  margin-top:15px;
+}
+
+/* PIE DE PÁGINA */
+
+footer {
+  border-top:1px solid #333;
+  padding:28px 15px;
+  text-align:center;
+  color:#ffffff;
+  font-size:17px;
+  background:rgba(11,11,11,0.65);
+}
+
+footer span { color:var(--rosa); }
+
+/* GALERÍA */
+
+.galeria-identidad {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+  margin-top:30px;
+}
+
+.video-identidad {
+  background:rgba(238,238,238,0.92);
+  border:1px solid #444;
+  border-radius:7px;
+  padding:18px;
+  color:#000000;
+  transition:.3s;
+}
+
+.video-identidad:hover {
+  transform:translateY(-4px);
+  border-color:var(--rosa);
+}
+
+.video-identidad h4 {
+  color:#000000;
+  font-size:19px;
+  margin-bottom:12px;
+}
+
+.video-identidad video {
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:5px;
+  background:#000000;
+}
+
+.video-identidad p {
+  color:#333333;
+  font-size:15px;
+  margin-top:10px;
+}
+
+/* CELULARES */
+
+@media (max-width:700px) {
+  header {
+    flex-direction:column;
+    padding:18px;
+  }
+
+  nav {
+    justify-content:center;
+    gap:12px;
+  }
+
+  nav a { font-size:17px; }
+
+  .principal { min-height:65vh; }
+
+  .seccion { padding:58px 6%; }
+
+  #visorRA {
+    height:min(65vh,450px);
+    min-height:300px;
+  }
+
+  .boton-seccion { width:100%; }
+
+  #realidad-aumentada { padding:60px 5%; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">JÓVENES <span>/</span> MEMORIA</div>
+
+  <nav aria-label="Navegación principal">
+    <a href="#inicio">Inicio</a>
+    <a href="#memoria-amplificada">Proyecto</a>
+    <a href="#menu-secciones">Secciones</a>
+    <a href="#realidad-aumentada">Experiencia RA</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="principal" id="inicio">
+  <div class="etiqueta">EXPERIENCIA DE REALIDAD AUMENTADA</div>
+  <h1>JÓVENES HACIENDO<br><span>MEMORIA</span></h1>
+  <p class="subtitulo">
+    Una experiencia que conecta memoria, tecnología y creatividad a través de la realidad aumentada.
+  </p>
+  <a href="#realidad-aumentada" class="boton">
+    DESCUBRIR EXPERIENCIA →
+  </a>
+</section>
+
+<section class="seccion" id="memoria-amplificada">
+  <h2>MEMORIA <span class="acento-rosa">AMPLIFICADA</span></h2>
+  <p class="introduccion">
+    En el marco de la muestra "Jóvenes haciendo memoria" de Seminario Taller de Integración Imagen, Sonido y Multimedia III de la Tecnicatura en Diseño de Imagen, Sonido y Multimedia en colaboración con Animación 2D, 3D y Diseño Web de la Licenciatura en Artes Combinadas de la FADyCC, UNNE: Realidad Aumentada es una propuesta que utiliza la tecnología para crear nuevas formas de explorar, compartir y experimentar contenidos mediante la realidad aumentada.
+  </p>
+</section>
+
+<section class="menu-interactivo" id="menu-secciones">
+  <h2>EXPLORÁ <span class="acento-celeste">NUESTRA PROPUESTA</span></h2>
+  <p class="introduccion">
+    Seleccioná una opción para conocer más sobre la muestra.
+  </p>
+
+  <div class="botones-secciones">
+    <button class="boton-seccion" type="button" data-seccion="proyectos" aria-expanded="false">NUESTROS PROYECTOS</button>
+    <button class="boton-seccion" type="button" data-seccion="identidad" aria-expanded="false">IDENTIDAD</button>
+    <button class="boton-seccion" type="button" data-seccion="catedra" aria-expanded="false">LA CÁTEDRA</button>
+  </div>
+</section>
+
+<section class="seccion contenido-interactivo" id="proyectos">
+  <h2>NUESTROS <span class="acento-celeste">PROYECTOS</span></h2>
+  <p class="introduccion">
+    Catorce propuestas que exploran distintas formas de construir, transmitir y mantener viva la memoria.
+  </p>
+
+  <div class="tarjetas">
+
+    <article class="tarjeta">
+      <h3>Retazos de Memoria</h3>
+      <p>Esta es la historia de personas que intentan reconstruir la memoria colectiva en medio de discursos que buscan borrar, minimizar o poner en duda el pasado.</p>
+      <p class="autores"><strong>Autores:</strong> Sofia Palacios, Angelina Rojas, Clara Sanchez, Elias Duarte, Mauro Escobar, Maximiliano De los Santos, Emanuel Alfonso, Julieta Gutierrez, Irina Lugo.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Memoria Abierta</h3>
+      <p>Esta es la historia de cómo el arte construye narrativas de resistencia frente al olvido. Se enfoca en expresiones artísticas que surgieron y siguen surgiendo como respuesta al golpe militar, tomando como punto de anclaje su 50° aniversario. Cada obra es una narrativa, la historia de alguien que se negó a callar. Busca visibilizar que el arte es una política de memoria. Cada expresión artística dedicada a las víctimas del golpe dice: "esto existió, estas personas existieron, y nos rehusamos a olvidarlas".</p>
+      <p class="autores"><strong>Autores:</strong> Carballo, Agustina; Miranda Saidman, Sofia; Guex, Tamara; Rodríguez, Luciano Gabriel; Romero Bieber, Maia; Figliuolo, Francisco; Gomez Rodriguez, Valentín.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Sueños Arrancados</h3>
+      <p>Esta es la historia de las víctimas de la Masacre de Margarita Belén, un proyecto que reconstruye sus vidas previas a la dictadura mediante el RUV junto a sus allegados para recordar la humanidad de aquellas personas llenas de sueños, rompiendo el estigma que las reduce a un colectivo violento.</p>
+      <p class="autores"><strong>Autores:</strong> Benítez Espinosa, Matias Ezequiel; López Ortiz, Maria Agustina; Rodríguez, Celina; Mordus, Gemma; Werenitzky Esmay, Paloma.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Huellas del Silencio</h3>
+      <p>Esta es la historia de un joven que busca la verdad en una sociedad que prefiere olvidar los rastros de la historia con los que conviven a diario en las calles de su ciudad.</p>
+      <p class="autores"><strong>Autores:</strong> Benolol, Paula Agustina; Bilinski, Leila Abigail; Cáceres Barrios, Milagros Aylen; Esquivel Atala, Brisa Ludmila; Jara, Leandro Nicolás.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Archivos de la Ausencia</h3>
+      <p>Esta es la historia de aquel momento más trágico de mi vida, no saber si volvería a ver a los míos.</p>
+      <p class="autores"><strong>Autores:</strong> Navarro, Sabrina; Ayala, Priscila; Videla, Brenda; Sanchez, Emilio; Cohen, Mauricio; Vargas, Santiago.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Vestigios</h3>
+      <p>Esta es la historia de una sociedad dividida por discursos negacionistas, que deberá enfrentarse a las huellas vivas del terrorismo de Estado para comprender el valor de la memoria, la verdad y la democracia.</p>
+      <p class="autores"><strong>Autores:</strong> Barreto, Valeria; Lazcano, Laila; Marker, Cielo; Gandino, Agustín; Candia, Sebastián; Enciso, Mauro; Shelover, Juan Ignacio; Espinosa, Tiago; Perez, Malena; Cabrera, Lucas.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Zona 233</h3>
+      <p>Esta es la historia de los Centros Clandestinos de Detención en Resistencia, Chaco, lugares donde la lucha por hacer memoria desafía a los procesos de olvido.</p>
+      <p class="autores"><strong>Autores:</strong> Brusco, Gonzalo; Duré, Enzo Nicolás; Gutierrez, María José; Latyn, Marcelo; Lazarte, Agustina; Vigay, Maximiliano.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Memorias Destrozadas</h3>
+      <p>Esta es la historia de la transformación del edificio de la ex Brigada de Investigaciones de Resistencia en un símbolo de memoria y Resistencia colectiva impulsado por la fundación H.I.j.O.S. Chaco.</p>
+      <p class="autores"><strong>Autores:</strong> Costarelli, Bruno; Galarza, Enzo; Holzman, Lautaro; Libutzki, Lizandro; Montero, Toloza Aaroón; Palavecino, Pablo; Ríos, Gustavo.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Ni Olvido Ni Perdón</h3>
+      <p>Este proyecto relatará la supervivencia de los presos políticos con el arte como factor mitigante ante la aplastante represión sufrida.</p>
+      <p class="autores"><strong>Autores:</strong> Alemany Roch, Barbara; Cabello, Norma; Gomez Laffont, Laureano; Rodriguez, Claribel; Vega, Facundo.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>La Mano Negra</h3>
+      <p>Esta es la historia de 23 memorias silenciadas en la Masacre de Margarita Belén buscando resurgir a través de una experiencia interactiva para exponer el absurdo encubrimiento militar.</p>
+      <p class="autores"><strong>Autores:</strong> Aguirre, Luz; Barrios, Lurdes; Checenelli, Valentina; Gauto, Leonardo; Perez, Abigail; Zapata, Gallego Dahiana.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Oktubre Internacional</h3>
+      <p>Este proyecto busca transmitir lo que evoca la canción llamada "Fuegos de Octubre" de Patricio Rey y sus Redonditos de Ricota, a través de la Tipografía Cinética, juntando material real del pasado mes de octubre donde estudiantes de todas partes del mundo no se quedaron de brazos cruzados frente al Sistema y el Gobierno.</p>
+      <p class="autores"><strong>Autores:</strong> Acevedo Fiama; Arias Barbara; Malawski Fabrizio; Perticarini Juan Cruz.</p>
+    </article>
+
+    <article class="tarjeta">
+      <h3>Margarita Belén</h3>
+      <p>La pieza aborda el discurso de Néstor Kirchner de 2007 sobre la Masacre de Margarita Belén, recuperando sus palabras para reflexionar sobre la memoria histórica, la justicia y la importancia de mantener vivo el recuerdo de las víctimas del terrorismo de Estado. Forma parte del proyecto transmedia Memoria Abierta, que busca promover la construcción y transmisión de la memoria colectiva.</p>
+      <p class="autores"><strong>Autores:</strong> Pallares Rubio, Natalia; Báez Rojas, Ayelén; Stecher, Agostina Andreu.</p>
+    </article>
+
+  </div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <a href="https://seminarioiii.lovable.app/proyectos"
+       class="boton"
+       target="_blank"
+       rel="noopener noreferrer">
+      PARA MÁS INFORMACIÓN DE LOS PROYECTOS →
+    </a>
+  </div>
+</section>
+
+<section class="seccion contenido-interactivo" id="identidad">
+  <h2><span class="acento-rosa">IDENTIDAD</span></h2>
+  <p class="introduccion">
+    Un espacio para reunir las piezas de identidad visual y los motion designs desarrollados para la muestra.
+  </p>
+
+  <div id="motion-designs" style="margin-top:35px;">
+    <h3 class="acento-celeste">MOTION DESIGNS</h3>
+    <p class="introduccion" style="margin-top:10px;">
+      Conocé las piezas audiovisuales desarrolladas por los grupos
+      para la muestra Jóvenes Haciendo Memoria.
+    </p>
+    <div id="galeria-identidad" class="galeria-identidad"></div>
+  </div>
+</section>
+
+<section class="seccion contenido-interactivo" id="catedra">
+  <h2>LA <span class="acento-amarillo">CÁTEDRA</span></h2>
+  <h3>Equipo Docente</h3>
+
+  <div class="equipo">
+    <div class="docente">
+      <strong>Mg. Verónica Seniquel</strong>
+      <span>Profesora Adjunta</span>
+    </div>
+    <div class="docente">
+      <strong>Lic. Cristian Cochia</strong>
+      <span>Jefe de Trabajos Prácticos</span>
+    </div>
+    <div class="docente">
+      <strong>DG Pablo Sánchez</strong>
+      <span>Auxiliar Docente</span>
+    </div>
+  </div>
+
+  <h3 class="acento-celeste">
+    Seminario Taller de Integración Imagen, Sonido y Multimedia III
+  </h3>
+
+  <p class="introduccion" style="margin-top:15px;">
+    <strong>Objetivo general</strong><br>
+    Generar proyectos transmedia colaborativos que fortalezcan la memoria histórica y la educación en derechos humanos en el Chaco, articulando la formación en diseño de imagen, sonido y multimedia con el trabajo conjunto junto a la Comisión Provincial por la Memoria del Chaco.
+  </p>
+
+  <h3 style="margin-top:38px;">Ejes de trabajo</h3>
+  <p class="introduccion" style="margin-top:8px;">
+    Los grupos seleccionaron distintos ejes de trabajo para sus proyectos.
+  </p>
+
+  <div class="ejes">
+    <div class="eje"><strong>Eje 1 ·</strong> Historias de vida de militantes desaparecidos del Chaco</div>
+    <div class="eje"><strong>Eje 2 ·</strong> La Masacre de Margarita Belén: memoria y justicia</div>
+    <div class="eje"><strong>Eje 3 ·</strong> La Brigada de Investigaciones: del horror al sitio de memoria</div>
+    <div class="eje"><strong>Eje 4 ·</strong> Identidad y apropiación</div>
+    <div class="eje"><strong>Eje 5 ·</strong> Ligas Agrarias y movimientos campesinos perseguidos</div>
+    <div class="eje"><strong>Eje 6 ·</strong> El archivo como herramienta de verdad: el RUV</div>
+    <div class="eje"><strong>Eje 7 ·</strong> Negacionismo y disputas por la memoria en el presente</div>
+    <div class="eje"><strong>Eje 8 ·</strong> Arte y memoria</div>
+    <div class="eje"><strong>Eje 9 ·</strong> Mujeres en la resistencia chaqueña</div>
+    <div class="eje"><strong>Eje 10 ·</strong> Educación y memoria: transmitir el Nunca Más</div>
+  </div>
+
+  <section id="animacion" style="margin-top:55px;">
+    <h2>ANIMACIÓN 2D, 3D Y <span class="acento-verde">DISEÑO WEB</span></h2>
+    <h3>Objetivos</h3>
+    <p class="introduccion" style="margin-top:14px;">
+      Desarrollar competencias técnicas y creativas en animación digital y diseño web, fomentando el pensamiento crítico y la experimentación visual. Los estudiantes aprenden a utilizar herramientas profesionales mientras exploran lenguajes visuales contemporáneos.
+    </p>
+    <p class="introduccion" style="margin-top:18px;">
+      Para este proyecto los alumnos aplicaron principios de Animación 2D, Motion Graphics, UI/UX Design y HTML/CSS/JavaScript.
+    </p>
+  </section>
+</section>
+
+<section id="realidad-aumentada">
+  <h2>EXPERIENCIA DE REALIDAD AUMENTADA</h2>
+  <p>Elegí un conjunto de marcadores y apuntá la cámara hacia una de sus imágenes.</p>
+
+  <div id="selectorMarcadores">
+    <button class="boton-seccion selector-marcador activo" type="button" data-grupo="1">SALA A</button>
+    <button class="boton-seccion selector-marcador" type="button" data-grupo="2">SALA B</button>
+  </div>
+
+  <p style="color:#bbb;font-size:13px;margin-bottom:18px;">
+    Elegí el conjunto de imágenes antes de activar la cámara.
+  </p>
+
+  <button id="iniciarRA" class="boton" type="button">
+    ACTIVAR CÁMARA
+  </button>
+
+  <div id="visorRA">
+    <div id="escenaContenedor"></div>
+
+    <video
+      id="videoGrupo01"
+      playsinline
+      webkit-playsinline
+      preload="none"
+      muted
+      crossorigin="anonymous"
+    ></video>
+  </div>
+
+  <button
+    id="reproducirSonidoRA"
+    class="boton"
+    type="button"
+    style="display:none; margin:15px auto;"
+  >
+    ACTIVAR SONIDO
+  </button>
+
+  <p id="estadoRA" aria-live="polite">
+    La cámara todavía no está activada.
+  </p>
+</section>
+
+<section class="logos" id="instituciones">
+  <h2>INSTITUCIONES <span>PARTICIPANTES</span></h2>
+  <p>Una experiencia realizada en conjunto.</p>
+
+  <img
+    src="../Imagenes/Logos/instituciones(1).png"
+    alt="Logos de las instituciones participantes"
+    class="imagen-instituciones"
+    onerror="this.style.display='none'; document.getElementById('errorLogos').style.display='block'; console.error('No se encontró la imagen:', this.src);"
+  >
+
+  <p id="errorLogos" class="mensaje-logos" style="display:none;">
+    No se pudo cargar la imagen de los logos. Verificá que esté guardada en Imagenes/Logos/instituciones(1).png.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>Jóvenes haciendo memoria, <span>Aumentada</span></p>
+  <p>11 de noviembre · Casa de las Culturas</p>
+</footer>
+
+<script>
+/* MENÚ INTERACTIVO */
+
+const botonesSecciones = document.querySelectorAll(".boton-seccion[data-seccion]");
+const contenidosSecciones = document.querySelectorAll(".contenido-interactivo");
+
+botonesSecciones.forEach(function(boton) {
+  boton.addEventListener("click", function() {
+    const idSeccion = boton.dataset.seccion;
+    const contenido = document.getElementById(idSeccion);
+
+    if (!contenido) return;
+
+    const yaEstabaAbierto = contenido.classList.contains("visible");
+
+    contenidosSecciones.forEach(function(seccion) {
+      seccion.classList.remove("visible");
+    });
+
+    botonesSecciones.forEach(function(otroBoton) {
+      otroBoton.classList.remove("activo");
+      otroBoton.setAttribute("aria-expanded", "false");
+    });
+
+    if (!yaEstabaAbierto) {
+      contenido.classList.add("visible");
+      boton.classList.add("activo");
+      boton.setAttribute("aria-expanded", "true");
+
+      contenido.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+    }
+  });
+});
+
+
+/* ELEMENTOS DE REALIDAD AUMENTADA */
+
+const botonRA = document.getElementById("iniciarRA");
+const visorRA = document.getElementById("visorRA");
+const estadoRA = document.getElementById("estadoRA");
+const escenaContenedor = document.getElementById("escenaContenedor");
+const videoGrupo01 = document.getElementById("videoGrupo01");
+const botonReproducirSonidoRA = document.getElementById("reproducirSonidoRA");
+const botonesMarcadores = document.querySelectorAll(".selector-marcador");
+
+let sonidoRAActivado = false;
+let iniciado = false;
+let sistemaRA = null;
+let escenaRA = null;
+let reproduccionActual = 0;
+let marcadorActivo = null;
+let grupoMarcadoresSeleccionado = 1;
+
+
+/* SELECCIÓN DE SALA */
+
+botonesMarcadores.forEach(function(boton) {
+  boton.addEventListener("click", function() {
+    if (iniciado) return;
+
+    grupoMarcadoresSeleccionado = Number(boton.dataset.grupo);
+
+    botonesMarcadores.forEach(function(otro) {
+      otro.classList.remove("activo");
+    });
+
+    boton.classList.add("activo");
+
+    estadoRA.textContent = grupoMarcadoresSeleccionado === 1
+      ? "Seleccionaste los marcadores de Sala A: grupos 2, 3, 5, 6, 7 y 8."
+      : "Seleccionaste los marcadores de Sala B: grupos 4, 9, 10, 11, 12 y 13.";
+  });
+});
+
+
+/* RELACIÓN ENTRE MARCADORES Y VIDEOS */
+
+
+  /* RELACIÓN ENTRE MARCADORES Y VIDEOS DE CLOUDINARY */
+
+const videosPorIndice = [
+  {
+    grupo: "Grupo 2 - Oktubre Internacional",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367259/Re-Entrega_Final_Animacion_Lyrics_Fuegos_de_Octubre_PR_Animacion_2D_3D_y_Dise%C3%B1o_Web_-_Juan_Cruz_Perticarini.mp4"
+  },
+  {
+    grupo: "Grupo 3 - Huella del Silencio",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367290/HUELLAS_DEL_SILENCIO.mp4"
+  },
+  {
+    grupo: "Grupo 5 - La Mano Negra",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367322/LOGO_ANIMADO_-_Abigail_P%C3%A9rez.mp4"
+  },
+  {
+    grupo: "Grupo 6 - Retazos de Memoria",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367340/loop_largo_-_Elias_Duarte.mp4"
+  },
+  {
+    grupo: "Grupo 7 - Sueños Arrancados",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367359/MotionLogoSA_-_Matias_Benitez.mp4"
+  },
+  {
+    grupo: "Grupo 8 - Memorias Destrozadas",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367378/Motion.mp4"
+  },
+  {
+    grupo: "Grupo 4 - Ni Olvido, Ni Perdón",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367310/Ni_Olvido_Ni_Perd%C3%B3n_Motion_para_el_Podcast.mp4"
+  },
+  {
+    grupo: "Grupo 9 - Margarita Belén",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367401/Tipografia_motion_-_Natalia_Pallares_Rubio.mp4"
+  },
+  {
+    grupo: "Grupo 10 - Vestigio",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367427/VESTIGIOS_-_ENCISO_BARRETO_-_valeria_barreto.mp4"
+  },
+  {
+    grupo: "Grupo 11 - Archivos de la Ausencia",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367448/Archivos_de_la_Ausencia_-_Maury_Cohen.mp4"
+  },
+  {
+    grupo: "Grupo 12 - Zona 233",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367465/Zona_233_-_Marcelo_Latyn_Schiavon.mp4"
+  },
+  {
+    grupo: "Grupo 13 - Memoria Abierta",
+    url: "https://res.cloudinary.com/aekojhsa/video/upload/v1794367481/Memoria_Abierta_paiva.mp4"
+  }
+];
+
+
+
+/* OBTENER VIDEO DESDE CLOUDINARY */
+
+function obtenerRutaVideo(videoElegido) {
+  return videoElegido.url;
+}
+
+
+
+/* GALERÍA DE IDENTIDAD */
+
+const galeriaIdentidad = document.getElementById("galeria-identidad");
+
+videosPorIndice.forEach(function(videoElegido) {
+  const tarjeta = document.createElement("article");
+  tarjeta.className = "video-identidad";
+
+  const titulo = document.createElement("h4");
+  titulo.textContent = videoElegido.grupo;
+
+  const reproductor = document.createElement("video");
+  reproductor.src = obtenerRutaVideo(videoElegido);
+  reproductor.controls = true;
+  reproductor.preload = "metadata";
+  reproductor.playsInline = true;
+  reproductor.muted = false;
+
+  reproductor.setAttribute("controls", "");
+  reproductor.setAttribute("playsinline", "");
+
+  const descripcion = document.createElement("p");
+  descripcion.textContent = "Motion design del grupo.";
+
+  tarjeta.appendChild(titulo);
+  tarjeta.appendChild(reproductor);
+  tarjeta.appendChild(descripcion);
+
+  galeriaIdentidad.appendChild(tarjeta);
+
+  reproductor.addEventListener("play", function() {
+    galeriaIdentidad.querySelectorAll("video").forEach(function(otroVideo) {
+      if (otroVideo !== reproductor) {
+        otroVideo.pause();
+      }
+    });
+  });
+});
+
+
+/* ACTIVAR SONIDO */
+
+botonReproducirSonidoRA.addEventListener("click", async function() {
+  try {
+    sonidoRAActivado = true;
+    videoGrupo01.muted = false;
+    videoGrupo01.volume = 1;
+
+    await videoGrupo01.play();
+
+    botonReproducirSonidoRA.style.display = "none";
+    estadoRA.textContent = "Reproduciendo video con sonido.";
+
+  } catch (error) {
+    console.error("No se pudo activar el sonido:", error);
+    estadoRA.textContent = "No se pudo activar el sonido. Intentá tocar el botón nuevamente.";
+  }
+});
+
+
+/* CREAR ESCENA MINDAR */
+
+function crearEscenaRA() {
+  const archivoMind = grupoMarcadoresSeleccionado === 1
+    ? "../targets_grupo1.mind"
+    : "../targets_grupo2.mind";
+
+  const primerIndiceVideo = grupoMarcadoresSeleccionado === 1 ? 0 : 6;
+
+  const escena = document.createElement("a-scene");
+  escena.id = "escenaRA";
+
+  escena.setAttribute(
+    "mindar-image",
+    "imageTargetSrc: " + archivoMind + "; " +
+    "autoStart: false; uiLoading: no; uiScanning: no; uiError: no;"
+  );
+
+  escena.setAttribute("embedded", "");
+  escena.setAttribute("renderer", "alpha: true; colorManagement: true");
+  escena.setAttribute("vr-mode-ui", "enabled: false");
+  escena.setAttribute("device-orientation-permission-ui", "enabled: false");
+
+  const camara = document.createElement("a-camera");
+  camara.setAttribute("position", "0 0 0");
+  camara.setAttribute("look-controls", "enabled: false");
+  escena.appendChild(camara);
+
+  /* Mensajes de estado de MindAR */
+
+  escena.addEventListener("arReady", function() {
+    estadoRA.textContent = "¡Cámara activada! Buscando los marcadores...";
+    console.log("MindAR está listo para reconocer imágenes.");
+  });
+
+  escena.addEventListener("arError", function(evento) {
+    console.error("Error de MindAR:", evento);
+    estadoRA.textContent = "Hubo un problema al iniciar el reconocimiento de imágenes.";
+  });
+
+  /* Crear los seis marcadores de la sala seleccionada */
+
+  for (let indice = 0; indice < 6; indice++) {
+    const marcador = document.createElement("a-entity");
+
+    marcador.setAttribute(
+      "mindar-image-target",
+      "targetIndex: " + indice
+    );
+
+    const indiceVideo = primerIndiceVideo + indice;
+
+    marcador.addEventListener("targetFound", function() {
+      console.log("Marcador reconocido. Índice:", indice);
+      reproducirVideo(indiceVideo, marcador);
+    });
+
+    marcador.addEventListener("targetLost", function() {
+      if (marcadorActivo !== marcador) return;
+
+      reproduccionActual++;
+      videoGrupo01.pause();
+      videoGrupo01.style.display = "none";
+      botonReproducirSonidoRA.style.display = "none";
+      marcadorActivo = null;
+
+      estadoRA.textContent = "Buscando la imagen...";
+    });
+
+    escena.appendChild(marcador);
+  }
+
+  escenaContenedor.appendChild(escena);
+
+  return escena;
+}
+
+
+/* ACTIVAR CÁMARA */
+
+botonRA.addEventListener("click", async function() {
+  if (iniciado) return;
+
+  try {
+    botonRA.disabled = true;
+    videoGrupo01.muted = true;
+    sonidoRAActivado = false;
+
+    visorRA.style.display = "block";
+    estadoRA.textContent = "Preparando la cámara y cargando los marcadores...";
+
+    escenaRA = crearEscenaRA();
+
+    if (!escenaRA.hasLoaded) {
+      await new Promise(function(resolve, reject) {
+        const tiempo = setTimeout(function() {
+          reject(new Error("La escena tardó demasiado en cargarse."));
+        }, 30000);
+
+        escenaRA.addEventListener("loaded", function() {
+          clearTimeout(tiempo);
+          resolve();
+        }, { once:true });
+      });
+    }
+
+    sistemaRA = escenaRA.systems["mindar-image-system"];
+
+    if (!sistemaRA) {
+      throw new Error("No se encontró el sistema MindAR.");
+    }
+
+    await sistemaRA.start();
+
+    iniciado = true;
+
+    botonRA.textContent = "CÁMARA ACTIVADA";
+
+    botonesMarcadores.forEach(function(boton) {
+      boton.disabled = true;
+      boton.style.opacity = "0.55";
+      boton.style.cursor = "not-allowed";
+    });
+
+    const nombreConjunto = grupoMarcadoresSeleccionado === 1
+      ? "grupos 2, 3, 5, 6, 7 y 8"
+      : "grupos 4, 9, 10, 11, 12 y 13";
+
+    estadoRA.textContent =
+      "¡Cámara activada! Apuntá hacia los marcadores de " +
+      nombreConjunto + ".";
+
+    console.log("Cámara iniciada correctamente.");
+    console.log("Archivo de marcadores:", grupoMarcadoresSeleccionado === 1
+      ? "../targets_grupo1.mind"
+      : "../targets_grupo2.mind");
+
+  } catch (error) {
+    console.error("Error de realidad aumentada:", error);
+
+    estadoRA.textContent =
+      "No se pudo iniciar la cámara: " + error.message;
+
+    botonRA.disabled = false;
+
+    if (sistemaRA && typeof sistemaRA.stop === "function") {
+      try {
+        sistemaRA.stop();
+      } catch (errorAlDetener) {
+        console.warn(errorAlDetener);
+      }
+    }
+
+    if (escenaRA && escenaRA.parentNode) {
+      escenaRA.parentNode.removeChild(escenaRA);
+    }
+
+    escenaRA = null;
+    sistemaRA = null;
+  }
+});
+
+
+/* REPRODUCIR VIDEO SEGÚN EL MARCADOR */
+
+async function reproducirVideo(indice, marcador) {
+  const videoElegido = videosPorIndice[indice];
+
+  if (!videoElegido) {
+    estadoRA.textContent = "No se encontró un video para este marcador.";
+    return;
+  }
+
+  const idReproduccion = ++reproduccionActual;
+  marcadorActivo = marcador;
+
+  videoGrupo01.pause();
+  videoGrupo01.removeAttribute("src");
+  videoGrupo01.load();
+
+  videoGrupo01.style.display = "block";
+  videoGrupo01.muted = true;
+  sonidoRAActivado = false;
+  botonReproducirSonidoRA.style.display = "none";
+
+  estadoRA.textContent =
+    "Imagen reconocida: " + videoElegido.grupo + ". Cargando video...";
+
+  const rutaVideo = obtenerRutaVideo(videoElegido);
+
+  console.log("Intentando cargar:", rutaVideo);
+
+  videoGrupo01.src = rutaVideo;
+  videoGrupo01.load();
+
+  try {
+    if (videoGrupo01.readyState < 3) {
+      await new Promise(function(resolve, reject) {
+        const tiempoEspera = setTimeout(function() {
+          limpiarEventos();
+          reject(new Error("El video tardó demasiado en cargar."));
+        }, 30000);
+
+        function cuandoPuedeReproducir() {
+          limpiarEventos();
+          resolve();
+        }
+
+        function cuandoHayError() {
+          limpiarEventos();
+          reject(new Error("No se pudo cargar el archivo de video."));
+        }
+
+        function limpiarEventos() {
+          clearTimeout(tiempoEspera);
+          videoGrupo01.removeEventListener("canplay", cuandoPuedeReproducir);
+          videoGrupo01.removeEventListener("error", cuandoHayError);
+        }
+
+        videoGrupo01.addEventListener("canplay", cuandoPuedeReproducir, { once:true });
+        videoGrupo01.addEventListener("error", cuandoHayError, { once:true });
+      });
+    }
+
+    if (idReproduccion !== reproduccionActual) return;
+
+    videoGrupo01.currentTime = 0;
+    videoGrupo01.muted = false;
+    videoGrupo01.volume = 1;
+
+    await videoGrupo01.play();
+
+    if (idReproduccion !== reproduccionActual) return;
+
+    botonReproducirSonidoRA.style.display = "none";
+
+    estadoRA.textContent =
+  " ¡Imagen reconocida! Reproduciendo con sonido: " +
+    videoElegido.grupo + ".";
+
+  } catch (error) {
+    if (idReproduccion !== reproduccionActual) return;
+
+    console.error("Error al reproducir el video:", error);
+    console.error("Ruta que falló:", rutaVideo);
+
+    videoGrupo01.pause();
+    videoGrupo01.style.display = "none";
+
+    estadoRA.textContent =
+      "Se reconoció la imagen, pero no se pudo cargar el video. Revisá la ruta del archivo.";
+  }
+}
+
+
+/* CONTROL DE ERRORES DEL VIDEO */
+
+videoGrupo01.addEventListener("error", function() {
+  if (!videoGrupo01.src) return;
+
+  console.error("Error del video:", videoGrupo01.error);
+
+  estadoRA.textContent =
+    "No se pudo cargar el video. Revisá su nombre y ubicación.";
+});
+
+videoGrupo01.addEventListener("loadedmetadata", function() {
+  console.log("Video cargado correctamente.");
+  console.log("Duración:", videoGrupo01.duration);
+});
+
+</script>
+
+</body>
+</html>
